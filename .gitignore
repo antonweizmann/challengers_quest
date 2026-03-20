@@ -1,0 +1,27 @@
+# --- System Files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editor / IDE Private Folders ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Environment Variables (CRITICAL: Never commit secrets) ---
+.env
+.env.local
+.env.*.local
+
+# --- Logs and Databases ---
+*.log
+*.sqlite
+
+# --- Common Dependency Folders ---
+node_modules/
+__pycache__/
+bin/
+obj/
+dist/
+build/
