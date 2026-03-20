@@ -28,4 +28,22 @@ Checklist 2:
 □ Implement at least 1 derived class and at least 2 overridden methods (excluding
 __str__ methods)
 
+Core Game Idea:
+
+This game consists ouf three main elements: the dungeons containing the game logic, the players containing different classes and weapons and the enemies represeenting a number of different npc to fight against.
+
+Players and Enemies Stats:
+	Health : int
+	Max Health : int
+	Stamina : int
+	Max Stamina : int
+	Weapon : Weapon Class
+
+Dungeon Attributs:
+	Enemy number: int
+	Enemies : list of Enemy class
+	Player: Player class
+	
+
+
 This project was done by Taj Jursa, Luuc Koojiman and Anton Weizmann
