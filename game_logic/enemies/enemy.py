@@ -1,7 +1,5 @@
 import random as rdm
 
-
-
 class Enemy:
     total_enemies_created = 0
 
@@ -21,6 +19,10 @@ class Enemy:
     @property
     def health(self):
         return self._health
+    
+    @property
+    def name(self):
+        return self._name
 
     @level.setter
     def level(self, value):
@@ -37,7 +39,6 @@ class Enemy:
 
 
     def get_attack_dmg(self):
-        
         return self.attack()
 
     def take_damage(self, damage):
@@ -76,8 +77,8 @@ class Boss(Enemy):
 class Bat(Enemy):
     def __init__(self, level: int):
         super().__init__("Bat", self.gen_start_values())
-        self._health *= 0.6
-        self._base_damage -= 4
+        self._health *= 0.5
+        self._base_damage -= 2
 
     @staticmethod
     def gen_start_values():
@@ -90,15 +91,15 @@ class Bat(Enemy):
             return super().attack()
         else:
             print("Bat's attack missed! (0 DMG)")
-            return 0
 
     def take_damage(self, damage):
         number = rdm.randint(1, 10)
         if number >= 6:
+            print(f"Bat got hit by the attack! ({self.get_taken_damage()} DMG)")
             super().take_damage(damage)
         else:
             print("Bat dodged the attack! (0 DMG)")
-            # return 0
+           
 
 class Goblin(Enemy):
     def __init__(self, level: int):
@@ -106,10 +107,13 @@ class Goblin(Enemy):
 
 class Brute(Enemy):
     def __init__(self, level: int):
-        super().__init__("Brute", 10 + level)
-        self._health *= 1.5
-        self._base_damage += 5
+        super().__init__("Brute", 2 + level)
+        self._health *= 0.8
+        self._base_damage += 1
 
     def take_damage(self, damage):
         actual_dmg = max(0, damage - 5)
         super().take_damage(actual_dmg)
+
+
+
