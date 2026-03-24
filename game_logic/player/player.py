@@ -49,6 +49,11 @@ class Warrior(Person):
     def gen_start_values():
         return rdm.randint(70, 100)
 
+
+
+    def get_damage(self):
+        return self.__items['weapons'].get_damage()
+
     def take_damage(self, damage_amt: int):
         if damage_amt > self.__armour:
             remaining_damage = damage_amt - self.__armour
