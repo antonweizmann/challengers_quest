@@ -1,7 +1,25 @@
 import logging as lg
 import os
-
+from player import player as pl
+import dungeon as dg
 class challengers_quest:
+	@property
+	def log(self):
+		return self._log
+
+	@log.setter
+	def log(self, new):
+		self._log = new
+
+	@property
+	def player(self):
+		return self._player
+
+	@player.setter
+	def player(self, new):
+		self._player = new
+
+	@staticmethod
 	def _create_log_file(self):
 		if not os.path.exists("logs"):
 			os.mkdir("logs")
@@ -12,47 +30,53 @@ class challengers_quest:
 		self._create_log_file()
 		self.log.info("Challenger Quest object created")
 
+	@staticmethod
 	def _select_char(self):
+		print("What character would you like to be called?")
+		name = input()
+		self.player = pl.Warrior(name)
+		self.log.info("Player created")
 
-		while True:
-			print("What character would you like to play as \
-					[1] Warrior or [2] Magician")
-			self.player = input()
-			if self.player is "1" or "2":
-				self.player =
-				self.log.info("Dungeon selected")
-				return;
-			self.log.warning("Unknown Character selection")
-
+	@staticmethod
 	def _select_dungeon(self):
-
 		while True:
-			print("What dungeon would you like to enter \
-					[1] Easy or [2] Hard")
-			self.dungeon = input()
-			if self.dungeon is "1" or "2":
-				self.dungeon =
+			print("What dungeon would you like to enter\n [1] Easy\n [2] Hard")
+			choice = input()
+			if choice == "1" or "2":
+				match int(choice):
+					case 1:
+						self.dungeon = dg.Easy_Dungeon(self.log, self.player)
+					case 2:
+						self.dungeon = dg.Hard_Dungeon(self.log, self.player)
 				self.log.info("Dungeon selected")
 				return;
 			self.log.warning("Unknown Dungeon selection")
-
-
+			print("Unknown Dungeon selection\n What dungeon would you like to enter\n [1] Easy\n [2] Hard")
 
 	def game_start(self):
 		print("---- WELCOME TO CHALLENGERS QUEST ----")
 		self._select_char()
 		self._select_dungeon()
-		self._game_loop()
-
-	def _game_loop(self):
-		self.log.info("Game loop started")
+		self.dungeon.create_floor()
 		self.dungeon.enter_floor()
-		
-
+		print("Would you like to continue playing?\n [1] Yes\n [2] No")
+		while True:
+			choice = input()
+			if choice == "1" or "2":
+				if choice == "1":
+					self.game_start()
+					self.log.info("Game Restarted")
+				else:
+					self.log.info("Game Stopped")
+					exit(0)
+				return;
+			self.log.warning("Unknown Choice selection")
+			print("Unknown Choice selection\n Would you like to continue playing?\n [1] Yes\n [2] No")
 
 if __name__ == "__main__":
 	cq = challengers_quest()
-	cq.log.warning("Test2")
+	# cq.log.warning("Test2")
+	cq.game_start()
 
 
 
