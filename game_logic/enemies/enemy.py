@@ -37,7 +37,6 @@ class Enemy:
     def attack(self):
         return rdm.randint(1, self._base_damage)
 
-
     def get_attack_dmg(self):
         return self.attack()
 
@@ -47,8 +46,6 @@ class Enemy:
             self.health = 0
         print(f"{self._name} took {damage} damage! Remaining: {self.health}")
 
-    def get_taken_dmg(self):
-        return self.health
 
     def check_status(self):
         return "Low" if self.health < 10 else "Fine"
@@ -97,14 +94,16 @@ class Bat(Enemy):
             return super().attack()
         else:
             print("Bat's attack missed! (0 DMG)")
+            return 0
 
     def take_damage(self, damage):
         number = rdm.randint(1, 10)
         if number > 3:
-            print(f"Bat got hit by the attack! ({self.get_taken_dmg()} HP)")
+            print(f"Bat got hit by the attack! ({self.health} HP)")
             super().take_damage(damage)
         else:
             print("Bat dodged the attack! (0 DMG)")
+            return 0
 
     def __str__(self):
         return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.level}]"
