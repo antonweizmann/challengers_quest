@@ -36,6 +36,7 @@ class Warrior(Person):
         self.__items = {'weapons': None, 'consumables': []}
         self.__armour = self.gen_start_values()
         self.add_weapon()
+        self.add_consumable()
 
     def __str__(self):
         person_sym = '\U0001F464'
