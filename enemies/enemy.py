@@ -5,7 +5,7 @@ class Enemy:
 
     def __init__(self, name: str, level: int):
         self.is_aggro = True
-        self._name = name
+        self.name = name
         self.__level = level
 
         self._health = 30 * level
@@ -20,9 +20,9 @@ class Enemy:
     def health(self):
         return self._health
 
-    @property
-    def name(self):
-        return self._name
+    # @property
+    # def name(self):
+    #     return self.name
 
     @level.setter
     def level(self, value):
@@ -44,22 +44,22 @@ class Enemy:
         self.health -= damage
         if self.health <= 0:
             self.health = 0
-        print(f"{self._name} took {damage} damage! Remaining: {self.health}")
+        print(f"{self.name} took {damage} damage! Remaining: {self.health}")
 
 
     def check_status(self):
         return "Low" if self.health < 10 else "Fine"
-    
+
     def regenerate(self):
         heal_amount = self.__level * 2
         self.health += heal_amount
-        print(f"{self._name} regenerated {heal_amount} HP.")
+        print(f"{self.name} regenerated {heal_amount} HP.")
 
     def get_difficulty_rating(self):
         return "Hard" if self.__level >= 3 else "Common"
 
     def __str__(self):
-        return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.level}]"
+        return f"[Enemy]: {self.name} HP-[{self.health}] LVL-[{self.level}]"
 
 class Boss(Enemy):
     def __init__(self, level: int):
@@ -78,7 +78,7 @@ class Boss(Enemy):
         super().take_damage(actual_dmg)
 
     def __str__(self):
-        return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.level}]"
+        return f"[Enemy]: {self.name} HP-[{self.health}] LVL-[{self.level}]"
 
 class Bat(Enemy):
     def __init__(self, level: int):
@@ -108,7 +108,7 @@ class Bat(Enemy):
 
 
     def __str__(self):
-        return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.level}]"
+        return f"[Enemy]: {self.name} HP-[{self.health}] LVL-[{self.level}]"
 
 
 class Goblin(Enemy):
@@ -116,7 +116,7 @@ class Goblin(Enemy):
         super().__init__("Goblin",level)
 
     def __str__(self):
-        return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.level}]"
+        return f"[Enemy]: {self.name} HP-[{self.health}] LVL-[{self.level}]"
 
 class Brute(Enemy):
     def __init__(self, level: int):
@@ -129,7 +129,7 @@ class Brute(Enemy):
         super().take_damage(actual_dmg)
 
     def __str__(self):
-        return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.level}]"
+        return f"[Enemy]: {self.name} HP-[{self.health}] LVL-[{self.level}]"
 
 
 

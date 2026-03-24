@@ -93,7 +93,7 @@ class Dungeon:
 				self.player.open_chest()
 			else:
 				opponent = self.enemies.pop()
-				print(f"Its a {opponent.name}")
+				print(f"Its a {opponent.name} ({opponent.get_difficulty_rating()})")
 				outcome = self._fight(opponent)
 				if outcome == 1:
 					self._won_fight()

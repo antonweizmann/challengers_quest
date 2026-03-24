@@ -4,7 +4,7 @@ from player.lootpool import loot_pool_manager as lpm
 class Person:
     num_of_deaths = 0
     def __init__(self, name: str, health: float, stamina: float):
-        self._name = name
+        self.name = name
         self._health = health
         self._stamina = stamina
         self._is_alive = True
@@ -17,9 +17,9 @@ class Person:
     def is_alive(self, new_state: bool):
         if self._is_alive == True and new_state == False:
             Person.num_of_deaths += 1
-            print(f"{self._name} has died")
+            print(f"{self.name} has died")
         elif self._is_alive == False and new_state == True:
-            print(f"{self._name} has been resurected")
+            print(f"{self.name} has been resurected")
         self._is_alive = new_state
 
     @classmethod
@@ -41,7 +41,7 @@ class Warrior(Person):
         stamina_sym = '\u26A1'
         shield_sym = '\U0001F6E1'
 
-        return (f"{person_sym} {self._name}\t{heart_sym} {self._health}\t{stamina_sym} {self._stamina}\t{shield_sym} {self.__armour}")
+        return (f"{person_sym} {self.name}\t{heart_sym} {self._health}\t{stamina_sym} {self._stamina}\t{shield_sym} {self.__armour}")
 
     @staticmethod
     def gen_start_values():
@@ -60,13 +60,13 @@ class Warrior(Person):
             self._health -= remaining_damage
             if self._health < 0:
                 self._health = 0
-            print(f"{self._name} took {remaining_damage} damage! Remaining: {self._health}")
+            print(f"{self.name} took {remaining_damage} damage! Remaining: {self._health}")
             if self._health <= 0:
                 self._health = 0
                 self.is_alive = False
         else:
             self.__armour -= damage_amt
-            print(f"{self._name} lost {damage_amt} armour! Remaining: {self.__armour} armour and {self._health} health")
+            print(f"{self.name} lost {damage_amt} armour! Remaining: {self.__armour} armour and {self._health} health")
 
 
     def add_weapon(self):
@@ -82,9 +82,9 @@ class Warrior(Person):
         print(f"You picked up {new_consumable}")
         self.__items['consumables'].append(new_consumable)
 
-    def remove_consumable(self, consumable_name: str):
+    def remove_consumable(self, consumablename: str):
         for consumable in self.__items['consumables']:
-            if consumable.name == consumable_name:
+            if consumable.name == consumablename:
                 self.__items['consumables'].remove(consumable)
                 break
 
@@ -144,7 +144,7 @@ class Warrior(Person):
 
 class Item:
     def __init__(self, name: str, rarity: str):
-        self._name = name
+        self.name = name
         self._amount = 1
         self._rarity = rarity
 
@@ -153,9 +153,9 @@ class Item:
         self._amount += amt
         return self
 
-    @property
-    def name(self):
-        return self._name
+    # @property
+    # def name(self):
+    #     return self.name
 
     @property
     def amount(self):
@@ -173,7 +173,7 @@ class Consumable(Item):
         self.__effect_amt = consumable_info_dict['effect_amt']
 
     def __str__(self):
-        return f"{self._name} ({self._rarity}) -> {self.__use_type} +{self.__effect_amt}\n"
+        return f"{self.name} ({self._rarity}) -> {self.__use_type} +{self.__effect_amt}\n"
 
     @property
     def use_type(self):
@@ -192,7 +192,7 @@ class Weapon(Item):
         self.__stamina_use = weapon_info_dict['stamina_use']
 
     def __str__(self):
-        output = (f"{self._name} ({self._rarity}) Stats\n"
+        output = (f"{self.name} ({self._rarity}) Stats\n"
               f"Damage:\t{self.__damage}\n"
               f"Stamina Use:\t{self.__stamina_use}\n")
         return output
