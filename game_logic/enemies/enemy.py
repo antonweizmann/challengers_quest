@@ -52,13 +52,21 @@ class Enemy:
 
     def check_status(self):
         return "Low" if self.health < 10 else "Fine"
+    
+    def regenerate(self):
+        heal_amount = self.__level * 2
+        self.health += heal_amount
+        print(f"{self._name} regenerated {heal_amount} HP.")
+
+    def get_difficulty_rating(self):
+        return "Hard" if self.__level >= 3 else "Common"
 
     def __str__(self):
         return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.level}]"
 
 class Boss(Enemy):
     def __init__(self, level: int):
-        super().__init__("Gorlock-3000", level)
+        super().__init__("Gorlock-3000", level *2)
         self._health *= self.health_multiplier()
         
     @staticmethod
