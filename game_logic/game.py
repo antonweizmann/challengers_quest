@@ -17,13 +17,37 @@ class challengers_quest:
 		while True:
 			print("What character would you like to play as \
 					[1] Warrior or [2] Magician")
+			self.player = input()
+			if self.player is "1" or "2":
+				self.player =
+				self.log.info("Dungeon selected")
+				return;
+			self.log.warning("Unknown Character selection")
+
+	def _select_dungeon(self):
+
+		while True:
+			print("What dungeon would you like to enter \
+					[1] Easy or [2] Hard")
+			self.dungeon = input()
+			if self.dungeon is "1" or "2":
+				self.dungeon =
+				self.log.info("Dungeon selected")
+				return;
+			self.log.warning("Unknown Dungeon selection")
+
 
 
 	def game_start(self):
 		print("---- WELCOME TO CHALLENGERS QUEST ----")
+		self._select_char()
+		self._select_dungeon()
+		self._game_loop()
 
-		self.player = self._select_char()
-
+	def _game_loop(self):
+		self.log.info("Game loop started")
+		self.dungeon.enter_floor()
+		
 
 
 if __name__ == "__main__":
