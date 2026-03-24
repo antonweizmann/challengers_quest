@@ -101,18 +101,7 @@ class Warrior(Person):
             choice = input("Enter consumable name: ").strip().lower()
             target = next((item for item in self.__items['consumables'] if item.name.lower() == choice), None)
             if target:
-                return target   
-            print(f"You do not have '{choice}'. Please enter a consumable you do have.")
-
-    def _select_consumable(self):
-        if not self.__items['consumables']:
-            print("Your inventory is empty!")
-            return None
-        while True:
-            choice = input("Enter consumable name: ").strip().lower()
-            target = next((item for item in self.__items['consumables'] if item.name.lower() == choice), None)
-            if target:
-                return target   
+                return target
             print(f"You do not have '{choice}'. Please enter a consumable you do have.")
 
     def apply_consumable(self):

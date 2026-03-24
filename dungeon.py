@@ -84,13 +84,13 @@ class Dungeon:
 			if event == 'chest':
 				self.player.open_chest()
 			else:
-				enemy = self.enemies.pop()
-				print(f"Its a {enemy.name}")
-				outcome = self._fight(enemy)
+				opponent = self.enemies.pop()
+				print(f"Its a {opponent.name}")
+				outcome = self._fight(opponent)
 				if outcome == 1:
 					self._won_fight()
 				else:
-					print("You have perished, but worry not as there is always another try on which you could succeed")
+					print(f"You have perished under the might of {enemy.Enemy.total_enemies_created} enemies, but worry not as there is always another try on which you could succeed")
 					return ;
 		outcome = self._fight(self.boss)
 		if outcome == 1 and self.cur_floor == self.floors:
@@ -103,7 +103,7 @@ class Dungeon:
 			self.level += 1
 			return self.enter_floor()
 		else:
-			print("You have perished, but worry not as there is always another try on which you could succeed")
+			print(f"You have perished under the might of {enemy.Enemy.total_enemies_created} enemies, but worry not as there is always another try on which you could succeed")
 			return ;
 
 	def _won_boss_fight(self):
@@ -119,7 +119,7 @@ class Dungeon:
 						self.log.info("player drank consumable")
 						return;
 			self.log.warning("Unknown Player Action selection")
-			print("Unknown Player Action selection \n Would you like to:\n [1] Move to the next room \n [2] Drink a consumable")
+			print("Unknown Player Action selection ")
 
 	def _won_fight(self):
 		print("Enemy slain\n Would you like to:\n [1] Move to the next room \n [2] Drink a consumable\n (You can only pick one the next fight will start after)")
@@ -134,7 +134,7 @@ class Dungeon:
 						self.log.info("player drank consumable")
 						return;
 			self.log.warning("Unknown Player Action selection")
-			print("Unknown Player Action selection \n Would you like to:\n [1] Move to the next room \n [2] Drink a consumable")
+			print("Unknown Player Action selection ")
 
 	def _player_action(self, enemy):
 		while True:
@@ -151,7 +151,7 @@ class Dungeon:
 						self.log.info("player drank consumable")
 				return;
 			self.log.warning("Unknown Player Action selection")
-			print("Unknown Player Action selection \n Would you like to:\n [1] Attack the enemy \n [2] Drink a consumable")
+			print("Unknown Player Action selection ")
 
 	def _enemy_action(self, enemy):
 		dmg = enemy.attack()
@@ -164,6 +164,7 @@ class Dungeon:
 				self._enemy_action(enemy)
 				first_action = 0
 				print("\n")
+			# self.player.take_damage(1000)
 			if self.player.is_alive == True:
 				self._player_action(enemy)
 				print("\n")
