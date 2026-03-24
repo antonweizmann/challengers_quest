@@ -9,9 +9,6 @@ class Person:
         self._stamina = stamina
         self._is_alive = True
 
-    def use_stamina(self, stamina_use: int):
-        self._stamina = self._stamina - stamina_use
-
     @property
     def is_alive(self):
         return self._is_alive
@@ -49,8 +46,6 @@ class Warrior(Person):
     @staticmethod
     def gen_start_values():
         return rdm.randint(70, 100)
-
-
 
     def get_damage(self):
         if self.__items['weapons']:
@@ -125,6 +120,15 @@ class Warrior(Person):
         for cItem in self.__items['consumables']:
             print(cItem)
 
+    def use_stamina(self):
+        stamina_amt = self.__items['weapons'].stamina_use
+        self._stamina = self._stamina - stamina_amt
+        print(f"-{stamina_amt} stamina from weapon")
+
+    def give_stamina(self):
+        stamina_amt = rdm.randint(10, 35)
+        self._stamina = self._stamina + stamina_amt
+        print(f"+{stamina_amt} stamina")
 
     def open_chest(self):
         match (rdm.randint(0, 1)):
@@ -179,23 +183,14 @@ class Weapon(Item):
     def __init__(self):
         weapon_info_dict = lpm.get_random_weapon()
         super().__init__(weapon_info_dict['name'], weapon_info_dict['rarity'])
-        self.__durability = rdm.randint(60, 100)
         self.__damage = weapon_info_dict['damage']
         self.__stamina_use = weapon_info_dict['stamina_use']
 
     def __str__(self):
         output = (f"{self._name} ({self._rarity}) Stats\n"
-              f"Durability:\t{self.__durability}\n"
               f"Damage:\t{self.__damage}\n"
               f"Stamina Use:\t{self.__stamina_use}\n")
         return output
-
-    @property
-    def durability(self):
-        return self.__durability
-
-    def use_durability(self, durability_use):
-        self.__durability = self.__durability - durability_use
 
     @property
     def damage(self):
