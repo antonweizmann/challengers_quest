@@ -37,7 +37,6 @@ class Enemy:
     def attack(self):
         return rdm.randint(1, self._base_damage)
 
-
     def get_attack_dmg(self):
         return self.attack()
 
@@ -47,18 +46,24 @@ class Enemy:
             self.health = 0
         print(f"{self._name} took {damage} damage! Remaining: {self.health}")
 
-    def get_taken_dmg(self):
-        return self.health
 
     def check_status(self):
         return "Low" if self.health < 10 else "Fine"
+    
+    def regenerate(self):
+        heal_amount = self.__level * 2
+        self.health += heal_amount
+        print(f"{self._name} regenerated {heal_amount} HP.")
+
+    def get_difficulty_rating(self):
+        return "Hard" if self.__level >= 3 else "Common"
 
     def __str__(self):
         return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.level}]"
 
 class Boss(Enemy):
     def __init__(self, level: int):
-        super().__init__("Gorlock-3000", level)
+        super().__init__("Gorlock-3000", level *2)
         self._health *= self.health_multiplier()
 
     @staticmethod
@@ -95,10 +100,11 @@ class Bat(Enemy):
     def take_damage(self, damage):
         number = rdm.randint(1, 10)
         if number > 3:
-            print(f"Bat got hit by the attack! ({self.get_taken_dmg()} HP)")
+            print(f"Bat got hit by the attack! ({self.health} HP)")
             super().take_damage(damage)
         else:
             print("Bat dodged the attack! (0 DMG)")
+            return 0
 
 
     def __str__(self):
