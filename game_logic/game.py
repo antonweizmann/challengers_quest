@@ -12,9 +12,18 @@ class challengers_quest:
 		self._create_log_file()
 		self.log.info("Challenger Quest object created")
 
+	def _select_char(self):
+
+		while True:
+			print("What character would you like to play as \
+					[1] Warrior or [2] Magician")
+			sel
+
+
 	def game_start(self):
 		print("---- WELCOME TO CHALLENGERS QUEST ----")
-		print("")
+
+		self.player =
 
 
 
