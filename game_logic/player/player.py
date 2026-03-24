@@ -12,24 +12,24 @@ class Person:
 
     def use_stamina(self, stamina_use: int):
         self._stamina = self._stamina - stamina_use
-    
+
     @property
     def is_alive(self):
         return self._is_alive
-    
+
     @is_alive.setter
     def is_alive(self, new_state: bool):
         if self._is_alive == True and new_state == False:
             Person.num_of_deaths += 1
             print(f"{self._name} has died")
-        else: 
+        else:
             print(f"{self._name} has been resurected")
         self._is_alive = new_state
 
     @classmethod
     def get_death_toll(cls):
         return cls.num_of_deaths
-    
+
 
 class Warrior(Person):
     def __init__(self, name: str):
@@ -48,7 +48,7 @@ class Warrior(Person):
     @staticmethod
     def gen_start_values():
         return rdm.randint(70, 100)
-    
+
     def take_damage(self, damage_amt: int):
         if damage_amt > self.__armour:
             remaining_damage = damage_amt - self.__armour
@@ -56,28 +56,40 @@ class Warrior(Person):
             if remaining_damage > self.__health:
                 self.__health = 0
                 self._is_alive = False
-            else: 
+            else:
                 self.__health = self.__health - (damage_amt - self.__armour)
         else: self.__armour = self.__armour - damage_amt
-        
+
 
     def add_weapon(self):
         new_weapon = Weapon()
+        print(f"You now have {new_weapon} equiped")
         self.__items['weapons'] == new_weapon
-    
+
     def remove_weapon(self, weapon_name: str):
         self.__items['weapons'] == None
 
     def add_consumable(self):
         new_consumable = Consumable()
+        print(f"You picked up {new_consumable}")
         self.__items['consumables'].append(new_consumable)
-    
+
     def remove_consumable(self, consumable_name: str):
         for consumable in self.__items['consumables']:
             if consumable.name == consumable_name:
                 self.__items['consumables'].remove(consumable)
 
-    def apply_consumable(self, consumable_name: str):
+    @staticmethod
+    def _select_consumable(self):
+        while True:
+            choice = input()
+            if self.__items['consumables'].find(choice):
+                return choice
+            print("You do not have this consumable please enter a consumable you do have")
+
+    def apply_consumable(self):
+        self.list_consumables()
+        consumable_name = self._select_consumable()
         found = False
         for consumable in self.__items['consumables']:
             if consumable.name == consumable_name:
@@ -106,7 +118,7 @@ class Warrior(Person):
         for cItem in self.__items['consumables']:
             output += cItem
 
-    
+
     def open_chest(self):
         match (rdm.randint(0, 1)):
             case 0:
@@ -119,7 +131,7 @@ class Item:
         self._name = name
         self._amount = 1
         self._rarity = rarity
-    
+
     #to increase amount <itemname> += value
     def __iadd__(self, amt):
         self._amount += amt
@@ -128,11 +140,11 @@ class Item:
     @property
     def name(self):
         return self._name
-    
+
     @property
     def amount(self):
         return self._amount
-    
+
     @property
     def rarity(self):
         return self._rarity
@@ -150,12 +162,12 @@ class Consumable(Item):
     @property
     def use_type(self):
         return self.__use_type
-    
+
     @property
     def effect_amt(self):
         return self.__effect_amt
 
-        
+
 class Weapon(Item):
     def __init__(self):
         weapon_info_dict = lpm.get_random_weapon()
@@ -173,19 +185,19 @@ class Weapon(Item):
     @property
     def durability(self):
         return self.__durability
-        
+
     def use_durability(self, durability_use):
         self.__durability = self.__durability - durability_use
-        
+
     @property
     def get_damage(self):
         return self.__damage
-    
+
     @property
     def stamina_use(self):
             return self.__stamina_use
-    
-        
+
+
 
 
 
