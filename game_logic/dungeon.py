@@ -80,10 +80,12 @@ class Dungeon:
 		rnd.shuffle(events)
 		rnd.shuffle(self.enemies)
 		for event in events:
+			print(f"You enter the room and encounter a {event}")
 			if event == 'chest':
 				self.player.open_chest()
 			else:
 				enemy = self.enemies.pop()
+				print(f"Its a {enemy.name}")
 				outcome = self._fight(enemy)
 				if outcome == 1:
 					self._won_fight()
@@ -178,7 +180,9 @@ class Easy_Dungeon(Dungeon):
 
 	def create_floor(self):
 		super().create_floor()
-		self._enemies = [enemy.Bat(self.level), enemy.Brute(self.level)]
+		available_enemies = [enemy.Bat, enemy.Bat, enemy.Brute, enemy.Goblin, enemy.Goblin, enemy.Goblin, enemy.Goblin]
+		total_enemies = 3 * self.level
+		self._enemies = [rnd.choice(available_enemies)(self.level) for _ in range(total_enemies)]
 		self._boss = enemy.Boss(self.level)
 
 class Hard_Dungeon(Dungeon):
@@ -189,6 +193,8 @@ class Hard_Dungeon(Dungeon):
 
 	def create_floor(self):
 		super().create_floor()
-		self._enemies = [enemy.Bat(self.level), enemy.Brute(self.level)]
+		available_enemies = [enemy.Bat, enemy.Bat, enemy.Brute, enemy.Goblin, enemy.Goblin]
+		total_enemies = 3 * self.level
+		self._enemies = [rnd.choice(available_enemies)(self.level) for _ in range(total_enemies)]
 		self._boss = enemy.Boss(self.level)
 
