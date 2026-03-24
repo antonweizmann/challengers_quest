@@ -94,9 +94,10 @@ class Warrior(Person):
 
     def _select_consumable(self):
         while True:
-            choice = input()
-            if self.__items['consumables'].find(choice):
-                return choice
+            choice = input("Enter consumable name: ")
+            target = next((item for item in self.__items['consumables'] if item.name == choice), None)
+            if target:
+                return target
             print("You do not have this consumable please enter a consumable you do have")
 
     def apply_consumable(self):
