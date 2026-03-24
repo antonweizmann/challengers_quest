@@ -1,7 +1,6 @@
 import random as rdm
 from lootpool import loot_pool_manager as lpm
 
-#need to add operator overloads (<=+ damage maybe)
 class Person:
     num_of_deaths = 0
     def __init__(self, name: str, health: float, stamina: float):
@@ -22,7 +21,7 @@ class Person:
         if self._is_alive == True and new_state == False:
             Person.num_of_deaths += 1
             print(f"{self._name} has died")
-        else: 
+        elif self._is_alive == False and new_state == True: 
             print(f"{self._name} has been resurected")
         self._is_alive = new_state
 
@@ -43,7 +42,7 @@ class Warrior(Person):
         stamina_sym = '\u26A1'
         shield_sym = '\U0001F6E1'
 
-        print(f"{person_sym} {self._name}\t{heart_sym} {self._health}\t{stamina_sym} {self._stamina}\t{shield_sym} {self.__armour}")
+        return (f"{person_sym} {self._name}\t{heart_sym} {self._health}\t{stamina_sym} {self._stamina}\t{shield_sym} {self.__armour}")
 
     @staticmethod
     def gen_start_values():
@@ -53,20 +52,20 @@ class Warrior(Person):
         if damage_amt > self.__armour:
             remaining_damage = damage_amt - self.__armour
             self.__armour = 0
-            if remaining_damage > self.__health:
-                self.__health = 0
-                self._is_alive = False
-            else: 
-                self.__health = self.__health - (damage_amt - self.__armour)
-        else: self.__armour = self.__armour - damage_amt
+            self._health -= remaining_damage 
+            if self._health <= 0:
+                self._health = 0
+                self.is_alive = False 
+        else: 
+            self.__armour -= damage_amt
         
 
     def add_weapon(self):
         new_weapon = Weapon()
-        self.__items['weapons'] == new_weapon
+        self.__items['weapons'] = new_weapon
     
-    def remove_weapon(self, weapon_name: str):
-        self.__items['weapons'] == None
+    def remove_weapon(self):
+        self.__items['weapons'] = None
 
     def add_consumable(self):
         new_consumable = Consumable()
@@ -76,35 +75,34 @@ class Warrior(Person):
         for consumable in self.__items['consumables']:
             if consumable.name == consumable_name:
                 self.__items['consumables'].remove(consumable)
+                break
 
     def apply_consumable(self, consumable_name: str):
-        found = False
+        target_consumable = None
+        
         for consumable in self.__items['consumables']:
             if consumable.name == consumable_name:
-                found == True
-                match (consumable.use_type):
-                    case 'health':
-                        self.__health += consumable.effect_amt
-                        self.remove_consumable(consumable_name)
-                        print(f"+{consumable.effect_amt} {consumable.use_type}")
-                        break
-                    case 'stamina':
-                        self._stamina += consumable.effect_amt
-                        self.remove_consumable(consumable_name)
-                        print(f"+{consumable.effect_amt} {consumable.use_type}")
-                        break
-                    case 'armour':
-                        self.__armour += consumable.effect_amt
-                        self.remove_consumable(consumable_name)
-                        print(f"+{consumable.effect_amt} {consumable.use_type}")
-                        break
-        if not found:
-            print("Consumable name doesnt exist")
+                target_consumable = consumable
+                break
+                
+        if target_consumable:
+            match (target_consumable.use_type):
+                case 'health':
+                    self._health += target_consumable.effect_amt
+                case 'stamina':
+                    self._stamina += target_consumable.effect_amt
+                case 'armour':
+                    self.__armour += target_consumable.effect_amt
+                    
+            print(f"+{target_consumable.effect_amt} {target_consumable.use_type}")
+            self.remove_consumable(consumable_name)
+        else:
+            print("Consumable name doesn't exist in inventory")
 
     def list_consumables(self):
-        output = "Consumables in Inventory:\n"
+        print("Consumables in Inventory:\n")
         for cItem in self.__items['consumables']:
-            output += cItem
+            print(cItem)
 
     
     def open_chest(self):
@@ -145,7 +143,7 @@ class Consumable(Item):
         self.__effect_amt = consumable_info_dict['effect_amt']
 
     def __str__(self):
-        f"{self._name} ({self._rarity}) -> {self.__use_type} +{self.__effect_amt}\n"
+        return f"{self._name} ({self._rarity}) -> {self.__use_type} +{self.__effect_amt}\n"
 
     @property
     def use_type(self):
@@ -165,10 +163,11 @@ class Weapon(Item):
         self.__stamina_use = weapon_info_dict['stamina_use']
 
     def __str__(self):
-        output = (f"{self._name} ({self._rarity}) Stats"
+        output = (f"{self._name} ({self._rarity}) Stats\n"
               f"Durability:\t{self.__durability}\n"
               f"Damage:\t{self.__damage}\n"
               f"Stamina Use:\t{self.__stamina_use}\n")
+        return output
 
     @property
     def durability(self):
