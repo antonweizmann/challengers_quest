@@ -58,13 +58,12 @@ class Enemy:
 
 class Boss(Enemy):
     def __init__(self, level: int):
-        lvl = self.gen_start_values()
-        super().__init__("Gorlock-3000", lvl)
-        self._health *= 3
+        super().__init__("Gorlock-3000", level)
+        self._health *= self.health_multiplier()
 
     @staticmethod
-    def gen_start_values():
-        return rdm.randint(5, 20)
+    def health_multiplier():
+        return rdm.randint(1, 4)
 
     def attack(self):
         return super().attack() +20
@@ -78,17 +77,14 @@ class Boss(Enemy):
 
 class Bat(Enemy):
     def __init__(self, level: int):
-        super().__init__("Bat", self.gen_start_values())
-        self._health *= 0.6
-        self._base_damage = level * 4
+        super().__init__("Bat", level)
+        self._health *= 0.5
+        self._base_damage -= 2
 
-    @staticmethod
-    def gen_start_values():
-        return rdm.randint(1, 10)
 
     def attack(self):
         number = rdm.randint(1, 10)
-        if number >= 5:
+        if number > 3:
             dmg = super().attack()
             print(f"Bat's attack hit! ({dmg} DMG) ")
             return dmg
@@ -98,7 +94,7 @@ class Bat(Enemy):
 
     def take_damage(self, damage):
         number = rdm.randint(1, 10)
-        if number >= 6:
+        if number > 3:
             print(f"Bat got hit by the attack! ({self.get_taken_dmg()} HP)")
             super().take_damage(damage)
         else:
