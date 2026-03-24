@@ -20,7 +20,7 @@ def get_random_weapon(filename="weapon_pool.txt"):
             name, rarity, damage, stamina_use = line.strip().split('#')
         return {'name': name, 'rarity': rarity, 'damage': int(damage), 'stamina_use': int(stamina_use)}
     except FileNotFoundError as e:
-        print(f"ERROR: Could not find {filename}! Giving a default weapon instead.")
+        print(f"ERROR: Could not find {file_path}! Giving a default weapon instead.")
         return {'name': 'Broken Stick', 'rarity': 'Poor', 'damage': 10, 'stamina_use': 1}
 
 '''
@@ -39,7 +39,7 @@ def get_random_consumable(filename="consumable_pool.txt"):
             name, rarity, use_type, effect_amt = line.strip().split('#')
         return {'name': name, 'rarity': rarity, 'use_type': use_type, 'effect_amt': int(effect_amt)}
     except FileNotFoundError as e:
-        print(f"ERROR: Could not find {filename}! Giving a default consumable instead.")
+        print(f"ERROR: Could not find {file_path}! Giving a default consumable instead.")
         return {'name': 'Mouldy Bread', 'rarity': 'Poor', 'use_type': 'health', 'effect_amt': 5}
 
 

@@ -93,25 +93,31 @@ class Warrior(Person):
                 self.__items['consumables'].remove(consumable)
                 break
 
+    def _select_consumable(self):
+        if not self.__items['consumables']:
+            print("Your inventory is empty!")
+            return None
+        while True:
+            choice = input("Enter consumable name: ").strip().lower()
+            target = next((item for item in self.__items['consumables'] if item.name.lower() == choice), None)
+            if target:
+                return target   
+            print(f"You do not have '{choice}'. Please enter a consumable you do have.")
 
     def _select_consumable(self):
+        if not self.__items['consumables']:
+            print("Your inventory is empty!")
+            return None
         while True:
-            choice = input("Enter consumable name: ")
-            target = next((item for item in self.__items['consumables'] if item.name == choice), None)
+            choice = input("Enter consumable name: ").strip().lower()
+            target = next((item for item in self.__items['consumables'] if item.name.lower() == choice), None)
             if target:
-                return target
-            print("You do not have this consumable please enter a consumable you do have")
+                return target   
+            print(f"You do not have '{choice}'. Please enter a consumable you do have.")
 
     def apply_consumable(self):
         self.list_consumables()
-        consumable_name = self._select_consumable()
-
-        target_consumable = None
-
-        for consumable in self.__items['consumables']:
-            if consumable.name == consumable_name:
-                target_consumable = consumable
-                break
+        target_consumable = self._select_consumable()
 
         if target_consumable:
             match (target_consumable.use_type):
@@ -123,9 +129,7 @@ class Warrior(Person):
                     self.__armour += target_consumable.effect_amt
 
             print(f"+{target_consumable.effect_amt} {target_consumable.use_type}")
-            self.remove_consumable(consumable_name)
-        else:
-            print("Consumable name doesn't exist in inventory")
+            self.remove_consumable(target_consumable.name)
 
     def list_consumables(self):
         print("Consumables in Inventory:\n")
