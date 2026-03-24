@@ -37,6 +37,7 @@ class Enemy:
 
 
     def get_attack_dmg(self):
+        
         return self.attack()
 
     def take_damage(self, damage):
@@ -94,7 +95,6 @@ class Bat(Enemy):
     def take_damage(self, damage):
         number = rdm.randint(1, 10)
         if number >= 6:
-            print(f"Bat got hit! ({self.damage()} DMG)")
             super().take_damage(damage)
         else:
             print("Bat dodged the attack! (0 DMG)")

@@ -21,7 +21,6 @@ class Person:
         if self._is_alive == True and new_state == False:
             Person.num_of_deaths += 1
             print(f"{self._name} has died")
-        else:
         elif self._is_alive == False and new_state == True:
             print(f"{self._name} has been resurected")
         self._is_alive = new_state
@@ -36,6 +35,7 @@ class Warrior(Person):
         super().__init__(name, self.gen_start_values(), self.gen_start_values())
         self.__items = {'weapons': None, 'consumables': []}
         self.__armour = self.gen_start_values()
+        self.add_weapon()
 
     def __str__(self):
         person_sym = '\U0001F464'
@@ -52,18 +52,25 @@ class Warrior(Person):
 
 
     def get_damage(self):
-        return self.__items['weapons'].get_damage()
+        if self.__items['weapons']:
+            return self.__items['weapons'].damage
+        else:
+            return 5
 
     def take_damage(self, damage_amt: int):
         if damage_amt > self.__armour:
             remaining_damage = damage_amt - self.__armour
             self.__armour = 0
             self._health -= remaining_damage
+            if self._health < 0:
+                self._health = 0
+            print(f"{self._name} took {remaining_damage} damage! Remaining: {self._health}")
             if self._health <= 0:
                 self._health = 0
                 self.is_alive = False
         else:
             self.__armour -= damage_amt
+            print(f"{self._name} lost {damage_amt} armour! Remaining: {self.__armour} armour and {self._health} health")
 
 
     def add_weapon(self):
@@ -184,7 +191,7 @@ class Weapon(Item):
         self.__durability = self.__durability - durability_use
 
     @property
-    def get_damage(self):
+    def damage(self):
         return self.__damage
 
     @property
