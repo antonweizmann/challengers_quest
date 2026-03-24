@@ -19,7 +19,7 @@ class Enemy:
     @property
     def health(self):
         return self._health
-    
+
     @property
     def name(self):
         return self._name
@@ -39,6 +39,7 @@ class Enemy:
 
 
     def get_attack_dmg(self):
+
         return self.attack()
 
     def take_damage(self, damage):
@@ -77,8 +78,8 @@ class Boss(Enemy):
 class Bat(Enemy):
     def __init__(self, level: int):
         super().__init__("Bat", self.gen_start_values())
-        self._health *= 0.5
-        self._base_damage -= 2
+        self._health *= 0.6
+        self._base_damage = level * 4
 
     @staticmethod
     def gen_start_values():
@@ -99,7 +100,7 @@ class Bat(Enemy):
             super().take_damage(damage)
         else:
             print("Bat dodged the attack! (0 DMG)")
-           
+
 
 class Goblin(Enemy):
     def __init__(self, level: int):
