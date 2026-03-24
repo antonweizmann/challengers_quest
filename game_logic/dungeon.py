@@ -162,10 +162,13 @@ class Dungeon:
 			if first_action == 1:
 				self._enemy_action(enemy)
 				first_action = 0
+				print("\n")
 			if self.player.is_alive == True:
 				self._player_action(enemy)
+				print("\n")
 			if enemy.health > 0 and self.player.is_alive == True:
 				self._enemy_action(enemy)
+				print("\n")
 		if enemy.health == 0:
 			return 1;
 		else:

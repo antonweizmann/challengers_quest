@@ -39,7 +39,6 @@ class Enemy:
 
 
     def get_attack_dmg(self):
-
         return self.attack()
 
     def take_damage(self, damage):
@@ -90,8 +89,9 @@ class Bat(Enemy):
     def attack(self):
         number = rdm.randint(1, 10)
         if number >= 5:
-            print(f"Bat's attack hit! ({self.get_attack_dmg()} DMG) ")
-            return super().attack()
+            dmg = super().attack()
+            print(f"Bat's attack hit! ({dmg} DMG) ")
+            return dmg
         else:
             print("Bat's attack missed! (0 DMG)")
             return 0
