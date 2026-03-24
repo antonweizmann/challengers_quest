@@ -17,13 +17,12 @@ class challengers_quest:
 		while True:
 			print("What character would you like to play as \
 					[1] Warrior or [2] Magician")
-			sel
 
 
 	def game_start(self):
 		print("---- WELCOME TO CHALLENGERS QUEST ----")
 
-		self.player =
+		self.player = self._select_char()
 
 
 
