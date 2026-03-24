@@ -76,6 +76,7 @@ class Warrior(Person):
 
     def add_weapon(self):
         new_weapon = Weapon()
+        print(f"You picked up {new_weapon}")
         self.__items['weapons'] = new_weapon
 
     def remove_weapon(self):

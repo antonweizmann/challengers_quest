@@ -94,6 +94,7 @@ class Bat(Enemy):
             return super().attack()
         else:
             print("Bat's attack missed! (0 DMG)")
+            return 0
 
     def take_damage(self, damage):
         number = rdm.randint(1, 10)
