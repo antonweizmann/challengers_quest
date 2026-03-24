@@ -91,7 +91,18 @@ class Warrior(Person):
                 self.__items['consumables'].remove(consumable)
                 break
 
-    def apply_consumable(self, consumable_name: str):
+
+    def _select_consumable(self):
+        while True:
+            choice = input()
+            if self.__items['consumables'].find(choice):
+                return choice
+            print("You do not have this consumable please enter a consumable you do have")
+
+    def apply_consumable(self):
+        self.list_consumables()
+        consumable_name = self._select_consumable()
+
         target_consumable = None
 
         for consumable in self.__items['consumables']:
