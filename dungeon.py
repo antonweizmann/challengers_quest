@@ -116,10 +116,10 @@ class Dungeon:
 			return ;
 
 	def _won_boss_fight(self):
-		print("Congratulation you have slain this floors Boss\n Would you like to:\n [1] Move to the next floor \n [2] Drink a consumable\n (You will move to the next floor after)")
 		while True:
+			print("Congratulation you have slain this floors Boss\n Would you like to:\n [1] Move to the next floor \n [2] Drink a consumable\n [3] Quit the game \n (You will move to the next floor after)")
 			choice = input()
-			if choice in ["1", "2"] :
+			if choice in ["1", "2", "3"] :
 				match int(choice):
 					case 1:
 						return;
@@ -127,14 +127,16 @@ class Dungeon:
 						self.player.apply_consumable()
 						self.log.info("player drank consumable")
 						return;
+					case 3:
+						exit(1)
 			self.log.warning("Unknown Player Action selection")
 			print("Unknown Player Action selection ")
 
 	def _won_fight(self):
-		print("Enemy slain\n Would you like to:\n [1] Move to the next room \n [2] Drink a consumable\n (You can only pick one the next fight will start after)")
 		while True:
+			print("Enemy slain\n Would you like to:\n [1] Move to the next room \n [2] Drink a consumable\n [3] Quit the game \n  (You can only pick one the next fight will start after)")
 			choice = input()
-			if choice in ["1", "2"]:
+			if choice in ["1", "2", "3"]:
 				match int(choice):
 					case 1:
 						return;
@@ -142,22 +144,28 @@ class Dungeon:
 						self.player.apply_consumable()
 						self.log.info("player drank consumable")
 						return;
+					case 3:
+						exit(1)
 			self.log.warning("Unknown Player Action selection")
 			print("Unknown Player Action selection ")
 
 	def _player_action(self, enemy):
 		while True:
-			print("What would you like to do?\n [1] Attack the enemy \n [2] Drink a consumable")
+			print("What would you like to do?\n [1] Attack the enemy \n [2] Drink a consumable \n [3] Quit the game \n ")
 			choice = input()
-			if choice in ["1", "2"]:
+			if choice in ["1", "2", "3"]:
 				match int(choice):
 					case 1:
-						dmg = self.player.get_damage()
-						enemy.take_damage(dmg)
-						self.log.info("player attacked")
+						if self.player.use_stamina() == 0:
+							dmg = self.player.get_damage()
+							enemy.take_damage(dmg)
+							self.log.info("player attacked")
 					case 2:
 						self.player.apply_consumable()
 						self.log.info("player drank consumable")
+					case 3:
+						exit(1)
+				self.player.give_stamina()
 				return;
 			self.log.warning("Unknown Player Action selection")
 			print("Unknown Player Action selection ")
@@ -218,10 +226,10 @@ class Hard_Dungeon(Dungeon):
 	def _won_boss_fight(self):
 		print("Congratulation you have bested this hard floors Boss\n Would you like to. We commend you \n As a reward take a new weapon")
 		self.player.add_weapon()
-		print("[1] Move to the next floor \n [2] Drink a consumable\n (You will move to the next floor after)")
+		print("[1] Move to the next floor \n [2] Drink a consumable\n [3] Quit the game \n (You will move to the next floor after)")
 		while True:
 			choice = input()
-			if choice in ["1", "2"] :
+			if choice in ["1", "2", "3"] :
 				match int(choice):
 					case 1:
 						return;
@@ -229,6 +237,8 @@ class Hard_Dungeon(Dungeon):
 						self.player.apply_consumable()
 						self.log.info("player drank consumable")
 						return;
+					case 3:
+						exit(1)
 			self.log.warning("Unknown Player Action selection")
 			print("Unknown Player Action selection ")
 

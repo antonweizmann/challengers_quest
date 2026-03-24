@@ -123,7 +123,12 @@ class Warrior(Person):
     def use_stamina(self):
         stamina_amt = self.__items['weapons'].stamina_use
         self._stamina = self._stamina - stamina_amt
-        print(f"-{stamina_amt} stamina from weapon")
+        if self._stamina < 0:
+            print("Not enough stamina to attack")
+            return 1
+        else:
+            print(f"-{stamina_amt} stamina from weapon")
+            return 0
 
     def give_stamina(self):
         stamina_amt = rdm.randint(10, 35)
