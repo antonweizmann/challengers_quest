@@ -2,9 +2,13 @@ import random as rnd
 from enemies import enemy
 
 class Dungeon:
+
+	dungeons_explored = 0
 	def __init__(self, log, player):
 		# self.enemies = []
 		self._log = log
+		self.__dungeon_id = rnd.randint(1000, 9999)
+		self._log.info(f"Initialized dungeon {self.__dungeon_id}")
 		self._player = player
 		self._cur_floor = 1
 	@property
@@ -71,6 +75,10 @@ class Dungeon:
 	def enemies(self, new):
 		self._enemies = new
 
+	@classmethod
+	def get_dungeons_explored(cls):
+		return cls.dungeons_explored
+
 	def create_floor(self):
 		self._enemies = []
 		self._chests = rnd.randint(0, 1)
@@ -94,7 +102,8 @@ class Dungeon:
 					return ;
 		outcome = self._fight(self.boss)
 		if outcome == 1 and self.cur_floor == self.floors:
-			print("Congratulations you have finished this dungeon! We hope you enjoyed and will come back to venture further into the depths")
+			Dungeon.dungeons_explored += 1
+			print(f"Congratulations you have finished this dungeon! You have ventured into {Dungeon.get_dungeons_explored()} We hope you enjoyed and will come back to venture further into the depths")
 			return ;
 		elif outcome == 1:
 			self._won_boss_fight()
@@ -176,6 +185,9 @@ class Dungeon:
 		else:
 			return 0;
 
+	def __str__(self):
+		return f"Dungeon Level: {self.level}, Current Floor: {self.cur_floor}"
+
 
 class Easy_Dungeon(Dungeon):
 	def __init__(self, log, player):
@@ -202,4 +214,21 @@ class Hard_Dungeon(Dungeon):
 		total_enemies = 3 * self.level
 		self._enemies = [rnd.choice(available_enemies)(self.level) for _ in range(total_enemies)]
 		self._boss = enemy.Boss(self.level)
+
+	def _won_boss_fight(self):
+		print("Congratulation you have bested this hard floors Boss\n Would you like to. We commend you \n As a reward take a new weapon")
+		self.player.add_weapon()
+		print("[1] Move to the next floor \n [2] Drink a consumable\n (You will move to the next floor after)")
+		while True:
+			choice = input()
+			if choice in ["1", "2"] :
+				match int(choice):
+					case 1:
+						return;
+					case 2:
+						self.player.apply_consumable()
+						self.log.info("player drank consumable")
+						return;
+			self.log.warning("Unknown Player Action selection")
+			print("Unknown Player Action selection ")
 
