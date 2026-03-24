@@ -1,20 +1,15 @@
 Tattered Bandage#common#health#12
-Cloudy Water Pouch#common#hydration#15
 Chewed Stamina Root#common#stamina#10
 Rusty Iron Plate#common#armour#14
 Bitter Herb Mash#common#health#18
-Stale Ale#common#hydration#12
 Standard Healing Potion#rare#health#30
-Fresh Spring Water#rare#hydration#28
 Refined Stamina Brew#rare#stamina#32
 Hardened Leather Scrap#rare#armour#35
 Soldier's Field Ration#rare#health#25
 Polished Steel Shard#rare#armour#30
 Greater Life Elixir#epic#health#50
-Glacial Tear#epic#hydration#48
 Adrenaline Extract#epic#stamina#52
 Enchanted Steel Guard#epic#armour#55
 Monk's Focused Tea#epic#stamina#45
 Phoenix Down Essence#legendary#health#60
-Nectar of the Gods#legendary#hydration#60
 Dragon's Heart Tincture#legendary#stamina#60
