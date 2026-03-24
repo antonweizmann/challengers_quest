@@ -1,5 +1,5 @@
 import random as rdm
-import loot_pool_manager as lpm
+
 
 
 class Enemy:
@@ -16,12 +16,12 @@ class Enemy:
 
     @property
     def level(self):
-        return self.__level 
-    
+        return self.__level
+
     @property
     def health(self):
         return self._health
-    
+
     @level.setter
     def level(self, value):
         if value > 0:
@@ -30,30 +30,30 @@ class Enemy:
     @health.setter
     def health(self, value):
         self._health = max(0, value)
-        
+
     #methods
     def attack(self):
         return rdm.randint(1, self._base_damage)
-    
-    
+
+
     def get_attack_dmg(self):
         return self.attack()
-    
+
     def take_damage(self, damage):
         self.health -= damage
         if self.health <= 0:
             self.health = 0
         print(f"{self._name} took {damage} damage! Remaining: {self.health}")
-   
+
     def get_taken_dmg(self):
         return self.take_damage
 
     def check_status(self):
         return "Low" if self.health < 10 else "Fine"
-    
+
     def __str__(self):
         return f"[Enemy]: {self._name} HP-[{self.health}] LVL-[{self.__level}]"
-    
+
 class Boss(Enemy):
     def __init__(self, level: int):
         lvl = self.gen_start_values()
@@ -63,10 +63,10 @@ class Boss(Enemy):
     @staticmethod
     def gen_start_values():
         return rdm.randint(5, 20)
-    
+
     def attack(self):
         return super().attack() +20
-    
+
     def take_damage(self, damage):
         actual_dmg = max(0, damage - 10)
         super().take_damage(actual_dmg)
@@ -81,25 +81,25 @@ class Bat(Enemy):
     @staticmethod
     def gen_start_values():
         return rdm.randint(1, 10)
-    
+
     def attack(self):
         number = rdm.randint(1, 10)
-        if number >= 5:   
-            print(f"Bat's attack hit! ({self.get_attack_dmg} DMG) ")
-            return super().attack() 
+        if number >= 5:
+            print(f"Bat's attack hit! ({self.get_attack_dmg()} DMG) ")
+            return super().attack()
         else:
             print("Bat's attack missed! (0 DMG)")
             return 0
-        
+
     def take_damage(self, damage):
         number = rdm.randint(1, 10)
         if number >= 6:
-            print(f"Bat got hit! ({self.get_taken_dmg} DMG)")
-            return super().take_damage(damage)
+            print(f"Bat got hit! ({self.damage()} DMG)")
+            super().take_damage(damage)
         else:
             print("Bat dodged the attack! (0 DMG)")
-            return 0
-        
+            # return 0
+
 class Goblin(Enemy):
     def __init__(self, level: int):
         super().__init__("Goblin",level)
@@ -111,4 +111,5 @@ class Brute(Enemy):
         self._base_damage += 5
 
     def take_damage(self, damage):
-        return super().take_damage(damage -5) 
+        actual_dmg = max(0, damage - 5)
+        super().take_damage(actual_dmg)

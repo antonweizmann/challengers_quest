@@ -43,7 +43,7 @@ class Dungeon:
 	def log(self):
 		return self._log
 
-	@property.setter
+	@log.setter
 	def log(self, new):
 		self._log = new
 
@@ -76,26 +76,25 @@ class Dungeon:
 		self._chests = rnd.randint(0, 1)
 
 	def enter_floor(self):
-		total_len = len(self.enemies) + self.chests
-		room = rnd.randint(0, total_len - 1)
-		while room > 0:
-			if self.chests == 1 and room == 1:
+		events = (['enemy'] * len(self.enemies)) + (['chest'] * self.chests)
+		rnd.shuffle(events)
+		rnd.shuffle(self.enemies)
+		for event in events:
+			if event == 'chest':
 				self.player.open_chest()
 			else:
-				enemy = self.enemies[rnd.randint(0, len(self.enemies))]
+				enemy = self.enemies.pop()
 				outcome = self._fight(enemy)
-				self.enemies.remove(enemy)
-				if outcome is 1:
+				if outcome == 1:
 					self._won_fight()
 				else:
 					print("You have perished, but worry not as there is always another try on which you could succeed")
 					return ;
-			total_len -= 1
 		outcome = self._fight(self.boss)
-		if outcome is 1 and self.cur_floor == self.floors:
+		if outcome == 1 and self.cur_floor == self.floors:
 			print("Congratulations you have finished this dungeon! We hope you enjoyed and will come back to venture further into the depths")
 			return ;
-		elif outcome is 1:
+		elif outcome == 1:
 			self._won_boss_fight()
 			self.create_floor()
 			self.cur_floor += 1
@@ -104,12 +103,11 @@ class Dungeon:
 			print("You have perished, but worry not as there is always another try on which you could succeed")
 			return ;
 
-	@staticmethod
 	def _won_boss_fight(self):
 		print("Congratulation you have slain this floors Boss\n Would you like to:\n [1] Move to the next floor \n [2] Drink a consumable\n (You will move to the next floor after)")
 		while True:
 			choice = input()
-			if choice is "1" or "2" :
+			if choice in ["1", "2"] :
 				match int(choice):
 					case 1:
 						return;
@@ -120,12 +118,11 @@ class Dungeon:
 			self.log.warning("Unknown Player Action selection")
 			print("Unknown Player Action selection \n Would you like to:\n [1] Move to the next room \n [2] Drink a consumable")
 
-	@staticmethod
 	def _won_fight(self):
 		print("Enemy slain\n Would you like to:\n [1] Move to the next room \n [2] Drink a consumable\n (You can only pick one the next fight will start after)")
 		while True:
 			choice = input()
-			if choice is "1" or "2":
+			if choice in ["1", "2"]:
 				match int(choice):
 					case 1:
 						return;
@@ -136,12 +133,11 @@ class Dungeon:
 			self.log.warning("Unknown Player Action selection")
 			print("Unknown Player Action selection \n Would you like to:\n [1] Move to the next room \n [2] Drink a consumable")
 
-	@staticmethod
 	def _player_action(self, enemy):
 		while True:
 			print("What would you like to do?\n [1] Attack the enemy \n [2] Drink a consumable")
 			choice = input()
-			if choice is "1" or "2":
+			if choice in ["1", "2"]:
 				match int(choice):
 					case 1:
 						dmg = self.player.get_damage()
@@ -154,23 +150,21 @@ class Dungeon:
 			self.log.warning("Unknown Player Action selection")
 			print("Unknown Player Action selection \n Would you like to:\n [1] Attack the enemy \n [2] Drink a consumable")
 
-	@staticmethod
 	def _enemy_action(self, enemy):
 		dmg = enemy.attack()
 		self.player.take_damage(dmg)
 
-	@staticmethod
 	def _fight(self, enemy):
 		first_action = rnd.randint(0,1)
-		while enemy.health is not 0 and self.player.is_alive == True:
+		while enemy.health > 0 and self.player.is_alive == True:
 			if first_action == 1:
 				self._enemy_action(enemy)
 				first_action = 0
 			if self.player.is_alive == True:
 				self._player_action(enemy)
-			if enemy.health is not 0:
+			if enemy.health > 0 and self.player.is_alive == True:
 				self._enemy_action(enemy)
-		if enemy.health is 0:
+		if enemy.health == 0:
 			return 1;
 		else:
 			return 0;
@@ -185,7 +179,7 @@ class Easy_Dungeon(Dungeon):
 	def create_floor(self):
 		super().create_floor()
 		self._enemies = [enemy.Bat(self.level), enemy.Brute(self.level)]
-		self._boss = enemy.Boss()
+		self._boss = enemy.Boss(self.level)
 
 class Hard_Dungeon(Dungeon):
 	def __init__(self, log, player):
@@ -196,5 +190,5 @@ class Hard_Dungeon(Dungeon):
 	def create_floor(self):
 		super().create_floor()
 		self._enemies = [enemy.Bat(self.level), enemy.Brute(self.level)]
-		self._boss = enemy.Boss()
+		self._boss = enemy.Boss(self.level)
 

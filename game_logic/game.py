@@ -19,7 +19,7 @@ class challengers_quest:
 	def player(self, new):
 		self._player = new
 
-	@staticmethod
+
 	def _create_log_file(self):
 		if not os.path.exists("logs"):
 			os.mkdir("logs")
@@ -30,19 +30,18 @@ class challengers_quest:
 		self._create_log_file()
 		self.log.info("Challenger Quest object created")
 
-	@staticmethod
 	def _select_char(self):
-		print("What character would you like to be called?")
+		print("What name would you like to be called?")
 		name = input()
 		self.player = pl.Warrior(name)
 		self.log.info("Player created")
 
-	@staticmethod
+
 	def _select_dungeon(self):
 		while True:
 			print("What dungeon would you like to enter\n [1] Easy\n [2] Hard")
 			choice = input()
-			if choice == "1" or "2":
+			if choice in ["1", "2"]:
 				match int(choice):
 					case 1:
 						self.dungeon = dg.Easy_Dungeon(self.log, self.player)
@@ -62,7 +61,7 @@ class challengers_quest:
 		print("Would you like to continue playing?\n [1] Yes\n [2] No")
 		while True:
 			choice = input()
-			if choice == "1" or "2":
+			if choice in ["1", "2"]:
 				if choice == "1":
 					self.game_start()
 					self.log.info("Game Restarted")

@@ -1,5 +1,5 @@
 import random as rdm
-from lootpool import loot_pool_manager as lpm
+from player.lootpool import loot_pool_manager as lpm
 
 #need to add operator overloads (<=+ damage maybe)
 class Person:
@@ -53,11 +53,11 @@ class Warrior(Person):
         if damage_amt > self.__armour:
             remaining_damage = damage_amt - self.__armour
             self.__armour = 0
-            if remaining_damage > self.__health:
-                self.__health = 0
+            if remaining_damage > self._health:
+                self._health = 0
                 self._is_alive = False
             else:
-                self.__health = self.__health - (damage_amt - self.__armour)
+                self._health = self._health - (damage_amt - self.__armour)
         else: self.__armour = self.__armour - damage_amt
 
 
