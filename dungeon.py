@@ -100,6 +100,7 @@ class Dungeon:
 			self._won_boss_fight()
 			self.create_floor()
 			self.cur_floor += 1
+			self.level += 1
 			return self.enter_floor()
 		else:
 			print("You have perished, but worry not as there is always another try on which you could succeed")
@@ -191,7 +192,7 @@ class Easy_Dungeon(Dungeon):
 class Hard_Dungeon(Dungeon):
 	def __init__(self, log, player):
 		super().__init__(log, player)
-		self._floors = 4
+		self._floors = 3
 		self._level = 3
 
 	def create_floor(self):

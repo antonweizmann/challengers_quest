@@ -8,7 +8,7 @@ class Enemy:
         self._name = name
         self.__level = level
 
-        self._health = 20 * level
+        self._health = 30 * level
         self._base_damage = level * 4
         Enemy.total_enemies_created += 1
 
