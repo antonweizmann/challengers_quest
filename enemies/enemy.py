@@ -20,9 +20,9 @@ class Enemy:
     def health(self):
         return self._health
 
-    # @property
-    # def name(self):
-    #     return self.name
+    @property
+    def get_base_dmg(self):
+        return self._base_damage
 
     @level.setter
     def level(self, value):
