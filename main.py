@@ -72,6 +72,9 @@ class challengers_quest:
 				return;
 			self.log.warning("Unknown Choice selection")
 			print("Unknown Choice selection")
+	def __str__(self):
+		return f"{self.player.name} in {type(self.dungeon).__name__}"
+
 
 
 if __name__ == "__main__":
