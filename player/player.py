@@ -153,10 +153,6 @@ class Item:
         self._amount += amt
         return self
 
-    # @property
-    # def name(self):
-    #     return self.name
-
     @property
     def amount(self):
         return self._amount
